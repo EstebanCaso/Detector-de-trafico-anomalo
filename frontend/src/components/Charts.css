@@ -1,0 +1,55 @@
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.chart-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(22, 199, 132, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+  border-color: rgba(22, 199, 132, 0.5);
+  box-shadow: 0 8px 25px rgba(22, 199, 132, 0.2);
+}
+
+.chart-card h3 {
+  color: #16c784;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.recharts-surface {
+  background: transparent !important;
+}
+
+.recharts-text {
+  fill: #64748b;
+}
+
+.recharts-cartesian-axis-tick {
+  color: #64748b;
+}
+
+@media (max-width: 1024px) {
+  .charts-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 1rem;
+  }
+}

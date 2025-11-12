@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: detector_trafico_db
+    environment:
+      POSTGRES_USER: trafico_user
+      POSTGRES_PASSWORD: trafico_password
+      POSTGRES_DB: detector_trafico
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - detector_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trafico_user -d detector_trafico"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (cache y message queue)
+  redis:
+    image: redis:7-alpine
+    container_name: detector_trafico_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - detector_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API (requiere ser ejecutado en host para captura de paquetes)
+  # Se ejecuta fuera del contenedor debido a requisitos de permisos de red
+  
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  detector_network:
+    driver: bridge
